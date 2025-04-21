@@ -1,51 +1,61 @@
-<div class="login-container">
-  <div class="login-box">
-    <h2>Login</h2>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 shadow rounded-4" style="width: 100%; max-width: 420px;">
+    <div class="text-center mb-4">
+      <h3 class="fw-bold text-primary">Login</h3>
+      <p class="text-muted mb-0">Welcome back! Please login to continue.</p>
+    </div>
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <!-- Email Input -->
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          formControlName="email" 
-          class="form-control" 
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
           placeholder="Enter your email" />
-
-        <!-- Email Error Messages -->
-        <div *ngIf="f['email']?.touched && f['email']?.invalid" class="error">
+        <div *ngIf="f['email']?.touched && f['email']?.invalid" class="text-danger small mt-1">
           <small *ngIf="f['email']?.errors?.['required']">Email is required.</small>
-          <small *ngIf="f['email']?.errors?.['email']">Please enter a valid email.</small>
+          <small *ngIf="f['email']?.errors?.['email']">Enter a valid email.</small>
         </div>
       </div>
 
       <!-- Password Input -->
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          formControlName="password" 
-          class="form-control" 
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
           placeholder="Enter your password" />
-
-        <!-- Password Error Messages -->
-        <div *ngIf="f['password']?.touched && f['password']?.invalid" class="error">
+        <div *ngIf="f['password']?.touched && f['password']?.invalid" class="text-danger small mt-1">
           <small *ngIf="f['password']?.errors?.['required']">Password is required.</small>
-          <small *ngIf="f['password']?.errors?.['minlength']">Password must be at least 6 characters.</small>
+          <small *ngIf="f['password']?.errors?.['minlength']">At least 6 characters.</small>
         </div>
       </div>
 
-      <!-- Login Button -->
-      <button type="submit" class="btn btn-primary" [disabled]="loading">
-        <span *ngIf="loading">Logging in...</span>
-        <span *ngIf="!loading">Login</span>
-      </button>
+      <!-- Submit Button -->
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          <span *ngIf="loading">Logging in...</span>
+          <span *ngIf="!loading">Login</span>
+        </button>
+      </div>
 
       <!-- Error Message -->
-      <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+      <div *ngIf="errorMessage" class="alert alert-danger text-center">
         {{ errorMessage }}
       </div>
     </form>
+
+    <!-- Register Redirect -->
+    <div class="text-center mt-3">
+      <p class="mb-0">
+        Don't have an account?
+        <a routerLink="/register" class="text-decoration-none fw-semibold text-primary">Sign up here</a>
+      </p>
+    </div>
   </div>
 </div>
