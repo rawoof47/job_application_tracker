@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,11 @@ export class RegisterComponent {
   successMessage = '';
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -34,13 +39,25 @@ export class RegisterComponent {
     this.http.post<any>('http://localhost:3000/api/register', this.registerForm.value).subscribe({
       next: (res) => {
         this.successMessage = res.message;
-        this.registerForm.reset();
         this.loading = false;
+
+        // Auto redirect to login after short delay
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1000);
       },
       error: (err) => {
-        this.errorMessage = err.error.message || 'Registration failed';
+        if (err.status === 409) {
+          this.errorMessage = 'Email is already registered.';
+        } else {
+          this.errorMessage = err.error.message || 'Registration failed';
+        }
         this.loading = false;
       }
     });
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 }

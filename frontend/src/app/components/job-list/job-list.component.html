@@ -1,16 +1,20 @@
-<!-- src/app/components/job-list/job-list.component.html -->
 <div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Available Jobs</h2>
-  
-    <div *ngFor="let job of jobs" class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">{{ job.company }}</h5>
-        <strong>Role:</strong> {{ job.role }}<br>
-        <strong>Salary:</strong> ₹{{ job.salary }}<br>
-        <strong>Job Type:</strong> {{ job.type }}<br>
-        <strong>Posted on:</strong> {{ job.postedDate | date: 'shortDate' }}<br>
-        <button class="btn btn-primary mt-3" (click)="applyJob(job.id)">Apply Now</button>
-      </div>
+    <div>
+      <button class="btn btn-outline-primary me-2" routerLink="/login">Login</button>
+      <button class="btn btn-outline-success" routerLink="/register">Register</button>
     </div>
   </div>
-  
+
+  <div *ngFor="let job of jobs" class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">{{ job.company }}</h5>
+      <strong>Role:</strong> {{ job.role }}<br>
+      <strong>Salary:</strong> ₹{{ job.salary }}<br>
+      <strong>Job Type:</strong> {{ job.type }}<br>
+      <strong>Posted on:</strong> {{ job.postedDate | date: 'shortDate' }}<br>
+      <button class="btn btn-primary mt-3" (click)="applyJob(job.id)">Apply Now</button>
+    </div>
+  </div>
+</div>
