@@ -1,0 +1,96 @@
+/* Overall header container */
+header {
+  background-color: #2c3e50; /* Dark background color */
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+/* Logo section */
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* Navigation links container */
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Navigation links styling */
+nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for nav links */
+nav a:hover {
+  background-color: #34495e;
+  color: #ecf0f1;
+  transform: translateY(-3px);
+}
+
+/* Active state for nav links */
+nav a.active {
+  background-color: #e74c3c;
+  color: white;
+  transform: translateY(0);
+}
+
+/* Log out button styling */
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for logout button */
+.logout-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-3px);
+}
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 15px;
+    align-items: center;
+    gap: 20px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .logo {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+}

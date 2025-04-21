@@ -1,24 +1,27 @@
-.job-card .card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .job-card .card-header {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .job-card .card-body {
-    background-color: #f9f9f9;
-  }
-  
-  .job-card .btn {
-    background-color: #28a745;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .job-card .btn:hover {
-    background-color: #218838;
-  }
-  
+/* Optional styling to manage space between the header and the content */
+.container {
+  margin-top: 80px; /* Adjust margin to accommodate for fixed header */
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+button {
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+button:disabled {
+  background-color: #dcdcdc;
+}

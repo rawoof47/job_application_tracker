@@ -1,27 +1,29 @@
-<!-- jobseeker-dashboard.component.html -->
+<app-header></app-header> <!-- Include the header component -->
 
-<div class="container">
-    <h2 class="mt-4">Jobseeker Dashboard</h2>
-  
-    <!-- Show loading state -->
-    <div *ngIf="loading" class="text-center">
-      <p>Loading jobs...</p>
-    </div>
-  
-    <!-- Show error message if jobs couldn't be fetched -->
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
-  
-    <!-- Display the list of jobs -->
-    <div *ngIf="!loading && !errorMessage">
-      <div *ngFor="let job of jobs" class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">{{ job.title }}</h5>
-          <p class="card-text">{{ job.company }}</p>
-          <button class="btn btn-primary" (click)="applyForJob(job.id)">Apply</button>
-        </div>
+<div class="container mt-4">
+  <h2 class="mb-4">Jobseeker Dashboard</h2>
+
+  <!-- Show loading state -->
+  <div *ngIf="loading" class="text-center">
+    <p>Loading jobs...</p>
+  </div>
+
+  <!-- Show error message if jobs couldn't be fetched -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Display the list of jobs -->
+  <div *ngIf="!loading && !errorMessage">
+    <div *ngFor="let job of jobs" class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ job.title }}</h5>
+        <p class="card-text">{{ job.company }}</p>
+        <p class="card-text"><small class="text-muted">Posted on: {{ job.postedDate | date:'shortDate' }}</small></p>
+
+        <!-- Apply button for job -->
+        <button class="btn btn-primary" (click)="applyForJob(job.id)">Apply</button>
       </div>
     </div>
   </div>
-  
+</div>
