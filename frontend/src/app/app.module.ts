@@ -9,13 +9,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JobFormComponent } from './components/job-form/job-form.component';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     JobFormComponent,
     JobListComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
