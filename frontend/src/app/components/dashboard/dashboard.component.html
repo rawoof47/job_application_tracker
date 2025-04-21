@@ -1,1 +1,42 @@
-<p>dashboard works!</p>
+<div class="container mt-4">
+  <button class="btn btn-primary mb-3" routerLink="/post-job">Post Job</button>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Company</th>
+        <th>Role</th>
+        <th>Salary</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobs">
+        <ng-container *ngIf="editingJobId === job.id; else viewMode">
+          <td colspan="5">
+            <form [formGroup]="editForm" class="d-flex gap-2 flex-wrap align-items-center">
+              <input type="text" class="form-control w-auto" formControlName="company" placeholder="Company" />
+              <input type="text" class="form-control w-auto" formControlName="role" placeholder="Role" />
+              <input type="number" class="form-control w-auto" formControlName="salary" placeholder="Salary" />
+              <input type="text" class="form-control w-auto" formControlName="type" placeholder="Type" />
+              <button class="btn btn-success me-1" (click)="saveJob(job.id)">Save</button>
+              <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+            </form>
+          </td>
+        </ng-container>
+
+        <ng-template #viewMode>
+          <td>{{ job.company }}</td>
+          <td>{{ job.role }}</td>
+          <td>{{ job.salary }}</td>
+          <td>{{ job.type }}</td>
+          <td>
+            <button class="btn btn-warning me-1" (click)="startEditing(job)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteJob(job.id)">Delete</button>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>
