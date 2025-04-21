@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="container mt-4">
   <button class="btn btn-primary mb-3" routerLink="/post-job">Post Job</button>
   <button class="btn btn-secondary mb-3" routerLink="/jobs">Back to Job List</button>
@@ -33,7 +35,7 @@
           <td>{{ job.role }}</td>
           <td>{{ job.salary }}</td>
           <td>{{ job.type }}</td>
-          <td>{{ job.application_count }}</td> <!-- Display application count -->
+          <td>{{ job.application_count }}</td>
           <td>
             <button class="btn btn-warning me-1" (click)="startEditing(job)">Edit</button>
             <button class="btn btn-danger" (click)="deleteJob(job.id)">Delete</button>

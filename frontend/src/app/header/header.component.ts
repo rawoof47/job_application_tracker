@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,18 +6,32 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  isLoggedIn = false;
+  userRole: string | null = null;
 
   constructor(private router: Router) {}
 
-  // Handle logout action
-  logout() {
-    localStorage.removeItem('token');  // Remove the token to log out
-    this.router.navigate(['/login']);  // Redirect to login page
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    this.isLoggedIn = !!token;
+    this.userRole = localStorage.getItem('role');
   }
 
-  // Navigate to Home Page (for the logo)
-  goToHome() {
-    this.router.navigate(['/']);  // Navigate to the home page
+  goToDashboard(): void {
+    if (this.userRole === 'jobseeker') {
+      this.router.navigate(['/jobseeker-dashboard']);
+    } else if (this.userRole === 'recruiter') {
+      this.router.navigate(['/dashboard']);
+    } else {
+      alert('User role not recognized.');
+    }
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.isLoggedIn = false;
+    this.userRole = null;
+    this.router.navigate(['/login']);
   }
 }
