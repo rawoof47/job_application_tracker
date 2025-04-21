@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <button class="btn btn-primary mb-3" routerLink="/post-job">Post Job</button>
-  <button class="btn btn-secondary mb-3" routerLink="/jobs">Back to Job List</button> <!-- Added button -->
+  <button class="btn btn-secondary mb-3" routerLink="/jobs">Back to Job List</button>
 
   <table class="table table-bordered">
     <thead class="table-dark">
@@ -9,13 +9,14 @@
         <th>Role</th>
         <th>Salary</th>
         <th>Type</th>
+        <th>Applications</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let job of jobs">
         <ng-container *ngIf="editingJobId === job.id; else viewMode">
-          <td colspan="5">
+          <td colspan="6">
             <form [formGroup]="editForm" class="d-flex gap-2 flex-wrap align-items-center">
               <input type="text" class="form-control w-auto" formControlName="company" placeholder="Company" />
               <input type="text" class="form-control w-auto" formControlName="role" placeholder="Role" />
@@ -32,6 +33,7 @@
           <td>{{ job.role }}</td>
           <td>{{ job.salary }}</td>
           <td>{{ job.type }}</td>
+          <td>{{ job.application_count }}</td> <!-- Display application count -->
           <td>
             <button class="btn btn-warning me-1" (click)="startEditing(job)">Edit</button>
             <button class="btn btn-danger" (click)="deleteJob(job.id)">Delete</button>

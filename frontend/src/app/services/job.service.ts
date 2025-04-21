@@ -6,22 +6,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class JobService {
-  private apiUrl = 'http://localhost:3000/api/jobs';  // Backend API URL
+
+  private apiUrl = 'http://localhost:3000/api';  // Backend API URL
 
   constructor(private http: HttpClient) { }
 
-  // Get all jobs
-  getJobs(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  // Fetch jobs with the number of applications
+  getJobsWithApplications(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/jobs-with-applications`);
+  }
+
+  // Get all jobs (basic)
+  getJobs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/jobs`);
+  }
+
+  // Save or update a job
+  updateJob(jobId: number, jobData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/jobs/${jobId}`, jobData);
   }
 
   // Delete a job
-  deleteJob(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
-  }
-
-  // Update a job
-  updateJob(id: number, jobData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, jobData);
+  deleteJob(jobId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/jobs/${jobId}`);
   }
 }

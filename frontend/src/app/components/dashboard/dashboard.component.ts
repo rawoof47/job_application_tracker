@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
       (response) => {
         this.jobs = response;
       },
-      (error) => {
+      (error: any) => {  // Specify 'any' type for error
         console.error('Error fetching jobs:', error);
       }
     );
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         () => {
           this.loadJobs();
         },
-        (error) => {
+        (error: any) => {  // Specify 'any' type for error
           console.error('Error deleting job:', error);
         }
       );
@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
         this.loadJobs();
         this.cancelEdit();
       },
-      (error) => {
+      (error: any) => {  // Specify 'any' type for error
         console.error('Error updating job:', error);
       }
     );

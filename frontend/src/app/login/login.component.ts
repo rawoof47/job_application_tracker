@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         (response: any) => {
           localStorage.setItem('token', response.token); // Store JWT token
           localStorage.setItem('userId', response.userId); // Optionally store userId
-          this.router.navigate(['/dashboard']); // Redirect to dashboard
+          this.router.navigate(['/jobs']); // Redirect to jobs list page after login
         },
         (error) => {
           this.loading = false;

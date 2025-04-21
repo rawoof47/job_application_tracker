@@ -60,7 +60,7 @@ app.post('/api/login', (req, res) => {
 
       const token = jwt.sign(
         { userId: result[0].user_id, email: result[0].email },
-        'your_jwt_secret',
+        'your_jwt_secret', // Replace with your actual secret key
         { expiresIn: '1h' }
       );
 
@@ -70,6 +70,47 @@ app.post('/api/login', (req, res) => {
         userId: result[0].user_id,
       });
     });
+  });
+});
+
+// ✅ Job Application
+app.post('/api/apply-job', (req, res) => {
+  const { jobId, userId } = req.body;
+
+  // Check if the job exists and if the user is logged in
+  if (!jobId || !userId) {
+    return res.status(400).json({ message: 'Job ID and User ID are required.' });
+  }
+
+  // Update job application status and number of applicants
+  const query = 'UPDATE jobs SET applicants = applicants + 1 WHERE id = ?';
+  db.query(query, [jobId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error applying for job.' });
+    }
+
+    // Insert job application into the application table
+    const insertQuery = 'INSERT INTO job_applications (job_id, user_id) VALUES (?, ?)';
+    db.query(insertQuery, [jobId, userId], (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error saving job application.' });
+      }
+
+      res.status(200).json({ message: 'Job applied successfully!' });
+    });
+  });
+});
+
+// ✅ Get number of applications for each job
+app.get('/api/jobs-applications', (req, res) => {
+  const query = 'SELECT jobs.id, jobs.company, jobs.role, jobs.salary, jobs.type, jobs.applicants, COUNT(job_applications.job_id) AS total_applications FROM jobs LEFT JOIN job_applications ON jobs.id = job_applications.job_id GROUP BY jobs.id';
+  
+  db.query(query, (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching job applications.' });
+    }
+
+    res.status(200).json({ jobs: result });
   });
 });
 
