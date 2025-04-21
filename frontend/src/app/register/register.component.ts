@@ -21,7 +21,8 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', Validators.required] // ✅ Added role field
     });
   }
 
@@ -41,7 +42,6 @@ export class RegisterComponent {
         this.successMessage = res.message;
         this.loading = false;
 
-        // Auto redirect to login after short delay
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 1000);
