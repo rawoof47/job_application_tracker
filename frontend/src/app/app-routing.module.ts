@@ -5,6 +5,7 @@ import { JobListComponent } from './components/job-list/job-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { JobseekerDashboardComponent } from './jobseeker-dashboard/jobseeker-dashboard.component';  // Importing the jobseeker dashboard
 
 const routes: Routes = [
   { path: '', redirectTo: 'jobs', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'jobseeker-dashboard', component: JobseekerDashboardComponent },  // Adding the jobseeker dashboard route
 ];
 
 @NgModule({

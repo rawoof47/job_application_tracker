@@ -42,9 +42,16 @@ export class LoginComponent implements OnInit {
     this.http.post(`${environment.apiUrl}/api/login`, { email, password })
       .subscribe(
         (response: any) => {
-          localStorage.setItem('token', response.token); // Store JWT token
-          localStorage.setItem('userId', response.userId); // Optionally store userId
-          this.router.navigate(['/jobs']); // Redirect to jobs list page after login
+          // Store the token and user ID in local storage
+          localStorage.setItem('token', response.token); 
+          localStorage.setItem('userId', response.userId); 
+
+          // Redirect user based on their role
+          if (response.role === 'recruiter') {
+            this.router.navigate(['/workspace']); // Redirect to recruiter dashboard
+          } else if (response.role === 'jobseeker') {
+            this.router.navigate(['/jobseeker-dashboard']); // Redirect to jobseeker dashboard
+          }
         },
         (error) => {
           this.loading = false;

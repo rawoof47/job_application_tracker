@@ -11,6 +11,7 @@ import { JobListComponent } from './components/job-list/job-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { JobseekerDashboardComponent } from './jobseeker-dashboard/jobseeker-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RegisterComponent } from './register/register.component';
     JobListComponent,
     DashboardComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    JobseekerDashboardComponent
   ],
   imports: [
     BrowserModule,
