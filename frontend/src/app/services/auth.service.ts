@@ -1,5 +1,3 @@
-// auth.service.ts
-
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,11 +7,15 @@ export class AuthService {
 
   constructor() { }
 
-  // Dummy method to get the logged-in user's email, replace with actual logic
-  getUserEmail(): string {
-    // You would normally get the user's email from a JWT token or a session
-    return 'jobseeker@example.com'; // For demo purposes, returning a static email
+  // ✅ Store the user's email in localStorage after login
+  login(userEmail: string): void {
+    localStorage.setItem('userEmail', userEmail);
   }
 
-  // Add other methods like login, logout, and register if necessary
+  // ✅ Get the logged-in user's email from localStorage
+  getUserEmail(): string {
+    return localStorage.getItem('userEmail') || '';
+  }
+
+  // Add other methods like logout, and register if necessary
 }
