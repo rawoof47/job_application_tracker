@@ -10,10 +10,13 @@ import { Job } from '../models/job.model'; // Updated Job model
 })
 export class JobListComponent implements OnInit {
   jobs: Job[] = [];
+  filteredJobs: Job[] = [];
   isLoggedIn: boolean = false;
   userEmail: string | null = null;
   loading: boolean = false;
   appliedJobs: Set<number> = new Set(); // Track applied jobs by jobId
+  searchQuery: string = ''; // Search query variable
+  selectedJobType: string = ''; // 'Full-Time' or 'Part-Time'
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -44,6 +47,7 @@ export class JobListComponent implements OnInit {
           ...job,
           applied: job.status === 'Applied' // Check if the status is 'Applied'
         }));
+        this.filteredJobs = [...this.jobs]; // Set initial filtered jobs to all jobs
         this.loading = false;
       },
       (error) => {
@@ -77,10 +81,11 @@ export class JobListComponent implements OnInit {
 
   // Update the job list with the applied status after fetching applied jobs
   updateJobListWithAppliedStatus(): void {
-    this.jobs = this.jobs.map(job => ({
+    this.jobs = this.jobs.map(job => ( {
       ...job,
       applied: this.appliedJobs.has(job.id) // Mark job as applied
     }));
+    this.filteredJobs = [...this.jobs]; // Update the filtered jobs list after updating applied status
   }
 
   // Apply for a job
@@ -112,5 +117,29 @@ export class JobListComponent implements OnInit {
     this.jobs = this.jobs.map(job =>
       job.id === jobId ? { ...job, applied: true } : job // Update job status on UI
     );
+    this.filteredJobs = [...this.jobs]; // Update the filtered jobs list
+  }
+
+  // Search jobs based on the search query
+  searchJobs(): void {
+    if (!this.searchQuery.trim()) {
+      this.filteredJobs = [...this.jobs]; // Show all jobs if search query is empty
+    } else {
+      this.filteredJobs = this.jobs.filter(job =>
+        job.company.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        job.role.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
+  }
+
+  // Filter jobs by job type (Full-Time or Part-Time)
+  filterJobsByJobType(): void {
+    if (this.selectedJobType) {
+      this.filteredJobs = this.jobs.filter(job => 
+        job.type.toLowerCase() === this.selectedJobType.toLowerCase()
+      );
+    } else {
+      this.filteredJobs = [...this.jobs]; // Show all jobs if no filter is selected
+    }
   }
 }

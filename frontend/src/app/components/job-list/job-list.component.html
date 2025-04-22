@@ -1,37 +1,80 @@
-<!-- Include the shared header -->
+<!-- Header Component -->
 <app-header></app-header>
 
-<!-- Main container, pushed below the fixed header -->
+<!-- Job Listings Page -->
 <div class="container mt-5 pt-4">
-  <h2 class="mb-4">Available Jobs</h2>
+  <h2 class="text-center mb-4">
+    <i class="bi bi-briefcase-fill text-primary"></i>
+    Job Listings
+  </h2>
 
-  <!-- Loop through jobs and display each in a card -->
-  <div *ngFor="let job of jobs" class="job-card mb-4 shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title">
-        <i class="bi bi-building"></i>{{ job.company }}
-      </h5>
-      <p><strong>Role:</strong> {{ job.role }}</p>
-      <p><strong>Salary:</strong> ₹{{ job.salary }}</p>
-      <p><strong>Job Type:</strong> {{ job.type }}</p>
-
-      <!-- Apply button -->
-      <button 
-        class="apply-btn mt-2"
-        (click)="applyJob(job.id)"
-        [disabled]="!isLoggedIn || job.applied"
-      >
-        <i class="bi bi-check-circle"></i>{{ job.applied ? 'Applied' : 'Apply Now' }}
-      </button>
+  <!-- 🔍 Enhanced Search Bar -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8 col-lg-6">
+      <div class="input-group input-group-lg shadow-sm">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="bi bi-search text-muted fs-5"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control border-start-0 fs-5"
+          placeholder="Search by company or role"
+          [(ngModel)]="searchQuery"
+          (input)="searchJobs()"
+        />
+      </div>
     </div>
   </div>
 
-  <!-- Optionally show a loading message or spinner while fetching jobs -->
-  <div *ngIf="!jobs.length && !loading" class="text-center no-jobs-message">
-    <p>No jobs available at the moment. Please check back later.</p>
+  <!-- Job Cards -->
+  <div *ngFor="let job of filteredJobs" class="card mb-5 shadow-lg p-3" style="border-radius: 1.25rem;">
+    <div class="card-body px-4 py-3">
+      <h4 class="card-title text-primary mb-3">
+        <i class="bi bi-building"></i>
+        {{ job.company }}
+      </h4>
+      <p class="mb-2 fs-5">
+        <i class="bi bi-person-fill text-secondary"></i>
+        <strong>Role:</strong> {{ job.role }}
+      </p>
+      <p class="mb-2 fs-5">
+        <i class="bi bi-cash-coin text-success"></i>
+        <strong>Salary:</strong> ₹{{ job.salary }}
+      </p>
+      <p class="mb-4 fs-5">
+        <i class="bi bi-clock-fill text-info"></i>
+        <strong>Type:</strong> {{ job.type }}
+      </p>
+
+      <!-- Apply Button or Applied Label -->
+      <div class="d-flex justify-content-between align-items-center">
+        <button
+          class="btn btn-lg btn-outline-primary px-4"
+          (click)="applyJob(job.id)"
+          [disabled]="!isLoggedIn || job.applied"
+        >
+          <i class="bi me-1" [ngClass]="job.applied ? 'bi-check2-circle' : 'bi-send-fill'"></i>
+          {{ job.applied ? 'Applied' : 'Apply Now' }}
+        </button>
+
+        <div *ngIf="job.applied" class="text-success fw-semibold fs-5">
+          <i class="bi bi-patch-check-fill"></i> Already Applied
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="loading" class="text-center">
-    <p>Loading jobs...</p>
+  <!-- No Jobs Found -->
+  <div *ngIf="!filteredJobs.length && !loading" class="text-center text-muted mt-5">
+    <i class="bi bi-folder-x fs-1"></i>
+    <p class="mt-2 fs-5">No matching jobs found.</p>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center mt-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="fs-5 mt-2">Loading jobs...</p>
   </div>
 </div>
