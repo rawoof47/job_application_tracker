@@ -24,4 +24,13 @@
       </button>
     </div>
   </div>
+
+  <!-- Optionally show a loading message or spinner while fetching jobs -->
+  <div *ngIf="!jobs.length && !loading" class="text-center">
+    <p>No jobs available at the moment. Please check back later.</p>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Loading jobs...</p>
+  </div>
 </div>

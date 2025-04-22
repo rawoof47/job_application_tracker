@@ -9,14 +9,14 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const PORT = 3000;
 
-// Middleware
+// ✅ Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
+// ✅ Route for job-related operations
 app.use('/api', jobRoutes);
 
-// ✅ Register new user with role
+// ✅ Register new user
 app.post('/api/register', (req, res) => {
   const { email, password, role } = req.body;
 
@@ -56,17 +56,15 @@ app.post('/api/login', (req, res) => {
   const query = 'SELECT * FROM users WHERE email = ?';
   db.query(query, [email], (err, result) => {
     if (err) return res.status(500).json({ message: 'Database error.' });
-
     if (result.length === 0) return res.status(404).json({ message: 'User not found.' });
 
     bcrypt.compare(password, result[0].password, (err, isMatch) => {
       if (err) return res.status(500).json({ message: 'Error comparing passwords.' });
-
       if (!isMatch) return res.status(401).json({ message: 'Invalid credentials.' });
 
       const token = jwt.sign(
         { userId: result[0].user_id, email: result[0].email, role: result[0].role },
-        'your_jwt_secret', // 🔒 Replace with env variable for production
+        'your_jwt_secret', // 🔒 Replace with process.env.JWT_SECRET in production
         { expiresIn: '1h' }
       );
 
@@ -82,18 +80,19 @@ app.post('/api/login', (req, res) => {
 
 // ✅ Apply for a job
 app.post('/api/apply-job', (req, res) => {
-  const { jobId, userId } = req.body;
+  const { jobId, email } = req.body;
 
-  if (!jobId || !userId) {
-    return res.status(400).json({ message: 'Job ID and User ID are required.' });
+  if (!jobId || !email) {
+    return res.status(400).json({ message: 'Job ID and User Email are required.' });
   }
 
-  const query = 'UPDATE jobs SET applicants = applicants + 1 WHERE id = ?';
-  db.query(query, [jobId], (err) => {
-    if (err) return res.status(500).json({ message: 'Error applying for job.' });
+  const jobQuery = 'SELECT * FROM jobs WHERE id = ?';
+  db.query(jobQuery, [jobId], (err, result) => {
+    if (err) return res.status(500).json({ message: 'Error fetching job.' });
+    if (result.length === 0) return res.status(404).json({ message: 'Job not found.' });
 
-    const insertQuery = 'INSERT INTO job_applications (job_id, user_id) VALUES (?, ?)';
-    db.query(insertQuery, [jobId, userId], (err) => {
+    const applyQuery = 'INSERT INTO job_applications (job_id, email, applied_date, status) VALUES (?, ?, NOW(), ?)';
+    db.query(applyQuery, [jobId, email, 'Applied'], (err) => {
       if (err) return res.status(500).json({ message: 'Error saving job application.' });
 
       res.status(200).json({ message: 'Job applied successfully!' });
@@ -101,11 +100,44 @@ app.post('/api/apply-job', (req, res) => {
   });
 });
 
+// ✅ Get all jobs with applied status for jobseeker
+app.get('/api/jobs', (req, res) => {
+  const email = req.query.email;
+
+  const query = `
+    SELECT jobs.id, jobs.company, jobs.role, jobs.salary, jobs.type, jobs.postedDate, 
+      IFNULL(job_applications.status, 'Not Applied') AS applied
+    FROM jobs
+    LEFT JOIN job_applications ON jobs.id = job_applications.job_id AND job_applications.email = ?
+  `;
+  
+  db.query(query, [email], (err, result) => {
+    if (err) return res.status(500).json({ message: 'Error fetching jobs.' });
+    res.status(200).json(result);
+  });
+});
+
+// ✅ Get applied jobs for a specific jobseeker
+app.get('/api/jobseeker-applied-jobs/:email', (req, res) => {
+  const { email } = req.params;
+
+  const query = `
+    SELECT jobs.id, jobs.company, jobs.role, jobs.salary, jobs.type, job_applications.applied_date, job_applications.status
+    FROM job_applications
+    JOIN jobs ON job_applications.job_id = jobs.id
+    WHERE job_applications.email = ?
+  `;
+  
+  db.query(query, [email], (err, result) => {
+    if (err) return res.status(500).json({ message: 'Error fetching applied jobs.' });
+    res.status(200).json({ appliedJobs: result });
+  });
+});
+
 // ✅ Get total applications per job
 app.get('/api/jobs-applications', (req, res) => {
   const query = `
-    SELECT jobs.id, jobs.company, jobs.role, jobs.salary, jobs.type, jobs.applicants,
-           COUNT(job_applications.job_id) AS total_applications
+    SELECT jobs.id, jobs.company, jobs.role, jobs.salary, jobs.type, COUNT(job_applications.job_id) AS total_applications
     FROM jobs
     LEFT JOIN job_applications ON jobs.id = job_applications.job_id
     GROUP BY jobs.id
@@ -113,12 +145,11 @@ app.get('/api/jobs-applications', (req, res) => {
 
   db.query(query, (err, result) => {
     if (err) return res.status(500).json({ message: 'Error fetching job applications.' });
-
     res.status(200).json({ jobs: result });
   });
 });
 
-// ✅ Check DB connection
+// ✅ DB Connection check
 db.connect((err) => {
   if (err) {
     console.error('Database connection failed:', err.stack);
@@ -127,7 +158,7 @@ db.connect((err) => {
   console.log('✅ Connected to the database');
 });
 
-// ✅ Start server
+// ✅ Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

@@ -1,51 +1,67 @@
-nav.navbar {
-  background-color: #1f1f1f;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border-radius: 0 0 10px 10px;
+/* General Navbar Styling */
+.navbar {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+}
 
-  .navbar-brand {
-    color: #ffffff;
-    font-size: 1.6rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
-    &:hover {
-      color: #0dcaf0;
-      text-shadow: 0 0 5px rgba(13, 202, 240, 0.4);
-    }
-  }
+.navbar:hover {
+  background-color: #e2e6ea;
+}
 
-  button {
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border-radius: 25px;
+.navbar .navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #007bff;
+}
 
-    i {
-      font-size: 1.1rem;
-    }
+.navbar .navbar-brand:hover {
+  color: #0056b3;
+}
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-    }
-  }
+/* Navbar links styling */
+.navbar-nav {
+  margin-left: auto;
+}
 
-  .btn-outline-info:hover {
-    color: #fff;
-    background-color: #0dcaf0;
-    border-color: #0dcaf0;
-  }
+.nav-item {
+  margin-right: 20px;
+}
 
-  .btn-outline-danger:hover {
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
+.nav-link {
+  color: #495057;
+  font-size: 1.1rem;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-  .btn-outline-light:hover {
-    color: #212529;
-    background-color: #f8f9fa;
-    border-color: #f8f9fa;
-  }
+.nav-link:hover {
+  color: #fff;
+  background-color: #007bff;
+}
+
+/* Active link styling */
+.nav-link.active {
+  background-color: #007bff !important;
+  color: white !important;
+}
+
+/* Mobile menu toggle button */
+.navbar-toggler {
+  border-color: #007bff;
+}
+
+.navbar-toggler-icon {
+  background-color: #007bff;
+}
+
+/* Adjusting navbar padding and margins */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-item:last-child {
+  margin-right: 0;
 }
