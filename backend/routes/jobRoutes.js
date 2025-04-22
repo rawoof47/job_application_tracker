@@ -5,14 +5,14 @@ const jobController = require('../controllers/jobController');
 // Route to create a new job
 router.post('/jobs', jobController.createJob);
 
-// Route to get all jobs (with the email query to check if the user has applied)
+// Route to get all jobs
 router.get('/jobs', jobController.getJobs);
 
 // Route to apply for a job
-router.post('/apply-job', jobController.applyJob);
+router.post('/jobs/apply', jobController.applyJob);
 
-// Route to get all jobs applied by a specific jobseeker
-router.get('/applied-jobs/:email', jobController.getAppliedJobs);
+// Route to get applied jobs for a specific jobseeker
+router.get('/jobs/applied/:email', jobController.getAppliedJobs);
 
 // Route to update a job
 router.put('/jobs/:id', jobController.updateJob);

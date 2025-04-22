@@ -1,47 +1,83 @@
 <app-header></app-header>
 
-<div class="container mt-4">
-  <button class="btn btn-primary mb-3" routerLink="/post-job">Post Job</button>
-  <button class="btn btn-secondary mb-3" routerLink="/jobs">Back to Job List</button>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-primary fw-bold d-flex align-items-center">
+      <i class="fas fa-user-tie me-2"></i> Manage Your Job Listings
+    </h3>
+    <div class="d-flex gap-2">
+      <button class="btn btn-success d-flex align-items-center" routerLink="/post-job">
+        <i class="fas fa-plus me-2"></i> Post Job
+      </button>
+      <button class="btn btn-outline-secondary d-flex align-items-center" routerLink="/jobs">
+        <i class="fas fa-list me-2"></i> Job List
+      </button>
+    </div>
+  </div>
 
-  <table class="table table-bordered">
-    <thead class="table-dark">
-      <tr>
-        <th>Company</th>
-        <th>Role</th>
-        <th>Salary</th>
-        <th>Type</th>
-        <th>Applications</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let job of jobs">
-        <ng-container *ngIf="editingJobId === job.id; else viewMode">
-          <td colspan="6">
-            <form [formGroup]="editForm" class="d-flex gap-2 flex-wrap align-items-center">
-              <input type="text" class="form-control w-auto" formControlName="company" placeholder="Company" />
-              <input type="text" class="form-control w-auto" formControlName="role" placeholder="Role" />
-              <input type="number" class="form-control w-auto" formControlName="salary" placeholder="Salary" />
-              <input type="text" class="form-control w-auto" formControlName="type" placeholder="Type" />
-              <button class="btn btn-success me-1" (click)="saveJob(job.id)">Save</button>
-              <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-            </form>
-          </td>
-        </ng-container>
+  <!-- Info message when no jobs -->
+  <div *ngIf="jobs.length === 0" class="alert alert-info d-flex align-items-center">
+    <i class="fas fa-info-circle me-2"></i>
+    No jobs available! <a routerLink="/post-job" class="ms-1 fw-semibold text-decoration-underline">Click here</a> to post your first job.
+  </div>
 
-        <ng-template #viewMode>
-          <td>{{ job.company }}</td>
-          <td>{{ job.role }}</td>
-          <td>{{ job.salary }}</td>
-          <td>{{ job.type }}</td>
-          <td>{{ job.application_count }}</td>
-          <td>
-            <button class="btn btn-warning me-1" (click)="startEditing(job)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteJob(job.id)">Delete</button>
-          </td>
-        </ng-template>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Success message on job action -->
+  <div *ngIf="actionSuccess" class="alert alert-success d-flex align-items-center">
+    <i class="fas fa-check-circle me-2"></i>
+    {{ actionMessage }}
+  </div>
+
+  <!-- Job table -->
+  <div class="table-responsive">
+    <table class="table table-hover align-middle shadow-sm rounded overflow-hidden">
+      <thead class="table-primary text-white">
+        <tr>
+          <th><i class="fas fa-building me-1"></i>Company</th>
+          <th><i class="fas fa-user-tie me-1"></i>Role</th>
+          <th><i class="fas fa-sack-dollar me-1"></i>Salary</th>
+          <th><i class="fas fa-clock me-1"></i>Type</th>
+          <th><i class="fas fa-users me-1"></i>Applications</th>
+          <th><i class="fas fa-cogs me-1"></i>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobs">
+          <ng-container *ngIf="editingJobId === job.id; else viewMode">
+            <!-- Edit Mode -->
+            <td colspan="6">
+              <form [formGroup]="editForm" class="d-flex flex-wrap gap-2 align-items-center">
+                <input type="text" class="form-control w-auto" formControlName="company" placeholder="Company" />
+                <input type="text" class="form-control w-auto" formControlName="role" placeholder="Role" />
+                <input type="number" class="form-control w-auto" formControlName="salary" placeholder="Salary" />
+                <input type="text" class="form-control w-auto" formControlName="type" placeholder="Type" />
+                <button type="button" class="btn btn-success" (click)="saveJob(job.id)">
+                  <i class="fas fa-save me-1"></i> Save
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                  <i class="fas fa-times me-1"></i> Cancel
+                </button>
+              </form>
+            </td>
+          </ng-container>
+
+          <!-- View Mode -->
+          <ng-template #viewMode>
+            <td>{{ job.company }}</td>
+            <td>{{ job.role }}</td>
+            <td>{{ job.salary | currency }}</td>
+            <td>{{ job.type }}</td>
+            <td>{{ job.application_count }}</td>
+            <td class="d-flex gap-2">
+              <button class="btn btn-warning btn-sm d-flex align-items-center" (click)="startEditing(job)">
+                <i class="fas fa-edit me-1"></i> Edit
+              </button>
+              <button class="btn btn-danger btn-sm d-flex align-items-center" (click)="deleteJob(job.id)">
+                <i class="fas fa-trash-alt me-1"></i> Delete
+              </button>
+            </td>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

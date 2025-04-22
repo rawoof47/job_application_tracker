@@ -149,6 +149,39 @@ app.get('/api/jobs-applications', (req, res) => {
   });
 });
 
+// ✅ Delete a job
+app.delete('/api/delete-job/:id', (req, res) => {
+  const { id } = req.params;
+
+  // Check if the job exists
+  const jobQuery = 'SELECT * FROM jobs WHERE id = ?';
+  db.query(jobQuery, [id], (err, result) => {
+    if (err) {
+      console.error('Error fetching job:', err);  // Log the error for debugging
+      return res.status(500).json({ message: 'Error fetching job.' });
+    }
+    if (result.length === 0) {
+      console.log(`Job with ID ${id} not found.`);
+      return res.status(404).json({ message: 'Job not found.' });
+    }
+
+    // Log job details for debugging
+    console.log(`Deleting job with ID ${id}:`, result[0]);
+
+    // Delete the job
+    const deleteQuery = 'DELETE FROM jobs WHERE id = ?';
+    db.query(deleteQuery, [id], (err) => {
+      if (err) {
+        console.error('Error deleting job:', err);  // Log the error for debugging
+        return res.status(500).json({ message: 'Error deleting job.' });
+      }
+      
+      console.log(`Job with ID ${id} deleted successfully.`);
+      res.status(200).json({ message: 'Job deleted successfully!' });
+    });
+  });
+});
+
 // ✅ DB Connection check
 db.connect((err) => {
   if (err) {

@@ -1,33 +1,90 @@
-<app-header></app-header>  <!-- Include the header component here -->
+<app-header></app-header> <!-- Header Component -->
 
-<div class="container mt-5">
-  <h3 class="mb-4">Post a Job</h3>
-  <form (ngSubmit)="submitJob()" #jobForm="ngForm">
+<div class="container d-flex justify-content-center mt-5 mb-5">
+  <div class="card p-4 shadow-lg border-0 w-100" style="max-width: 720px; background-color: #ffffff; border-radius: 1rem;">
+    <h3 class="mb-4 text-primary fw-bold d-flex align-items-center">
+      <i class="fas fa-briefcase me-2 fa-lg"></i> Post a New Job
+    </h3>
 
-    <div class="mb-3">
-      <label for="company" class="form-label">Company Name</label>
-      <input type="text" id="company" class="form-control" [(ngModel)]="job.company" name="company" required>
-    </div>
+    <form (ngSubmit)="submitJob()" #jobForm="ngForm" class="needs-validation" novalidate>
 
-    <div class="mb-3">
-      <label for="role" class="form-label">Job Role</label>
-      <input type="text" id="role" class="form-control" [(ngModel)]="job.role" name="role" required>
-    </div>
+      <!-- Company Name -->
+      <div class="mb-3">
+        <label for="company" class="form-label">
+          <i class="fas fa-building me-2 text-secondary"></i>Company Name
+        </label>
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-building text-muted"></i></span>
+          <input
+            type="text"
+            id="company"
+            class="form-control shadow-sm"
+            [(ngModel)]="job.company"
+            name="company"
+            required
+            placeholder="e.g. Google Inc.">
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="salary" class="form-label">Salary</label>
-      <input type="number" id="salary" class="form-control" [(ngModel)]="job.salary" name="salary" required>
-    </div>
+      <!-- Job Role -->
+      <div class="mb-3">
+        <label for="role" class="form-label">
+          <i class="fas fa-user-tie me-2 text-secondary"></i>Job Role
+        </label>
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-user-tie text-muted"></i></span>
+          <input
+            type="text"
+            id="role"
+            class="form-control shadow-sm"
+            [(ngModel)]="job.role"
+            name="role"
+            required
+            placeholder="e.g. Frontend Developer">
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label class="form-label">Job Type</label>
-      <select class="form-select" [(ngModel)]="job.type" name="type" required>
-        <option value="">Select Job Type</option>
-        <option value="Full Time">Full Time</option>
-        <option value="Part Time">Part Time</option>
-      </select>
-    </div>
+      <!-- Salary -->
+      <div class="mb-3">
+        <label for="salary" class="form-label">
+          <i class="fas fa-sack-dollar me-2 text-secondary"></i>Salary
+        </label>
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-sack-dollar text-muted"></i></span>
+          <input
+            type="number"
+            id="salary"
+            class="form-control shadow-sm"
+            [(ngModel)]="job.salary"
+            name="salary"
+            required
+            placeholder="e.g. 50000">
+        </div>
+      </div>
 
-    <button type="submit" class="btn btn-primary">Post Job</button>
-  </form>
+      <!-- Job Type -->
+      <div class="mb-4">
+        <label class="form-label">
+          <i class="fas fa-briefcase-clock me-2 text-secondary"></i>Job Type
+        </label>
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fas fa-clock text-muted"></i></span>
+          <select
+            class="form-select shadow-sm"
+            [(ngModel)]="job.type"
+            name="type"
+            required>
+            <option value="" disabled>Select Job Type</option>
+            <option value="Full Time">Full Time</option>
+            <option value="Part Time">Part Time</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm d-flex align-items-center justify-content-center">
+        <i class="fas fa-paper-plane me-2"></i> Post Job
+      </button>
+    </form>
+  </div>
 </div>
