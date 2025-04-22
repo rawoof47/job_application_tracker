@@ -1,27 +1,142 @@
-/* Optional styling to manage space between the header and the content */
+// General container styling
 .container {
-  margin-top: 80px; /* Adjust margin to accommodate for fixed header */
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 15px;
 }
 
-.card {
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.card-body {
-  padding: 20px;
-}
-
+// Heading styling
 h2 {
-  font-size: 2rem;
-  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
 }
 
-button {
+// Card styling - larger and bolder
+.job-card {
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-body {
+    padding: 30px;
+  }
+
+  .card-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+
+    .bi-building {
+      margin-right: 12px;
+      color: #007bff;
+    }
+  }
+
+  p {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+
+  .apply-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    background-color: #007bff;
+    border: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+    min-width: 180px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+
+    &.disabled {
+      background-color: #d6d6d6;
+      cursor: not-allowed;
+    }
+
+    .bi {
+      margin-right: 10px;
+    }
+  }
+}
+
+// Badge styling
+.badge {
   font-size: 1rem;
-  border-radius: 5px;
+  font-weight: 500;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  color: #007bff;
 }
 
-button:disabled {
-  background-color: #dcdcdc;
+// No jobs available message
+.no-jobs-message {
+  font-size: 1.5rem;
+  color: #777;
+  text-align: center;
+  margin-top: 40px;
+}
+
+// Loading message
+.text-center {
+  font-size: 1.5rem;
+  color: #777;
+  margin-top: 40px;
+}
+
+// Icon styling for job info
+i {
+  color: #007bff;
+  margin-right: 12px;
+}
+
+// Cleaner container for responsive view
+@media (max-width: 767px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .job-card {
+    margin-bottom: 25px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 1.8rem;
+  }
+
+  .apply-btn {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    min-width: auto;
+  }
 }

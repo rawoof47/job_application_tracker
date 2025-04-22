@@ -6,27 +6,28 @@
   <h2 class="mb-4">Available Jobs</h2>
 
   <!-- Loop through jobs and display each in a card -->
-  <div *ngFor="let job of jobs" class="card mb-4 shadow-sm">
+  <div *ngFor="let job of jobs" class="job-card mb-4 shadow-sm">
     <div class="card-body">
-      <h5 class="card-title">{{ job.company }}</h5>
-      <p class="mb-2"><strong>Role:</strong> {{ job.role }}</p>
-      <p class="mb-2"><strong>Salary:</strong> ₹{{ job.salary }}</p>
-      <p class="mb-2"><strong>Job Type:</strong> {{ job.type }}</p>
-      <p class="mb-2"><strong>Posted on:</strong> {{ job.postedDate | date: 'shortDate' }}</p>
+      <h5 class="card-title">
+        <i class="bi bi-building"></i>{{ job.company }}
+      </h5>
+      <p><strong>Role:</strong> {{ job.role }}</p>
+      <p><strong>Salary:</strong> ₹{{ job.salary }}</p>
+      <p><strong>Job Type:</strong> {{ job.type }}</p>
 
       <!-- Apply button -->
       <button 
-        class="btn btn-primary mt-2"
+        class="apply-btn mt-2"
         (click)="applyJob(job.id)"
         [disabled]="!isLoggedIn || job.applied"
       >
-        {{ job.applied ? 'Applied' : 'Apply Now' }}
+        <i class="bi bi-check-circle"></i>{{ job.applied ? 'Applied' : 'Apply Now' }}
       </button>
     </div>
   </div>
 
   <!-- Optionally show a loading message or spinner while fetching jobs -->
-  <div *ngIf="!jobs.length && !loading" class="text-center">
+  <div *ngIf="!jobs.length && !loading" class="text-center no-jobs-message">
     <p>No jobs available at the moment. Please check back later.</p>
   </div>
 
