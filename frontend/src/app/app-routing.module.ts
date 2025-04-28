@@ -8,12 +8,12 @@ import { RegisterComponent } from './register/register.component';
 import { JobseekerDashboardComponent } from './jobseeker-dashboard/jobseeker-dashboard.component';  // Jobseeker Dashboard
 
 const routes: Routes = [
-  { path: '', redirectTo: 'jobs', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },   // 👈 Default page changed to Login
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'jobs', component: JobListComponent },
   { path: 'post-job', component: JobFormComponent },
   { path: 'dashboard', component: DashboardComponent },  // Recruiter Dashboard
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'jobseeker-dashboard', component: JobseekerDashboardComponent },  // Jobseeker Dashboard
 ];
 

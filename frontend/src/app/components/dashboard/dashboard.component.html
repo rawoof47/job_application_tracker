@@ -36,7 +36,7 @@
           <th><i class="fas fa-user-tie me-1"></i>Role</th>
           <th><i class="fas fa-sack-dollar me-1"></i>Salary</th>
           <th><i class="fas fa-clock me-1"></i>Type</th>
-          <th><i class="fas fa-users me-1"></i>Applications</th>
+          <th><i class="fas fa-users me-1"></i>Applicants</th> <!-- Updated header -->
           <th><i class="fas fa-cogs me-1"></i>Actions</th>
         </tr>
       </thead>
@@ -66,7 +66,18 @@
             <td>{{ job.role }}</td>
             <td>{{ job.salary | currency }}</td>
             <td>{{ job.type }}</td>
-            <td>{{ job.application_count }}</td>
+            <td>
+              <div *ngIf="job.applicants && job.applicants.length > 0">
+                <ul class="list-unstyled">
+                  <li *ngFor="let applicant of job.applicants">
+                    <span class="badge bg-info me-2">{{ applicant.email }}</span> <!-- Display email -->
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="!job.applicants || job.applicants.length === 0">
+                No applicants yet.
+              </div>
+            </td>
             <td class="d-flex gap-2">
               <button class="btn btn-warning btn-sm d-flex align-items-center" (click)="startEditing(job)">
                 <i class="fas fa-edit me-1"></i> Edit
